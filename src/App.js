@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import {useRandomQoutes} from './customQueryHooks/useQoutes';
+import {GlobalStyle, AppWrapper, Section} from './styles/style';
 
 function App() {
+
+  const onSuccess = () => {
+    console.log('Seccess');
+  }
+  const onError = () => {
+    console.log('Error');
+  }
+  const {isError, data,error, refetch} = useRandomQoutes(onSuccess, onError);
+
+  if(isError){
+    return <h2>{error.message}</h2>
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <GlobalStyle/>
+    <AppWrapper>
+    <Section>
+    <h1>{data}</h1>
+    <button onClick={refetch} >Give me adive</button>
+    </Section>
+    </AppWrapper>
+    </>
   );
 }
 
